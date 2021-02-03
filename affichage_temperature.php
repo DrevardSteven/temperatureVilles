@@ -7,7 +7,7 @@ $bdd = new PDO('mysql:host=localhost;dbname=bdd_temperaturevilles;charset=utf8',
 $bdd->query('SET lc_time_names = "fr_FR"');
 $ville_sel = $_POST['ville_select'];
 //echo $_POST["ville_select"];
-$reponse = $bdd->prepare('SELECT ville, temperature, DATE_FORMAT(last_update, "Le %d %M %Y à %Hh%i") AS last_update FROM `temperaturevilles` WHERE ville = ? ');
+$reponse = $bdd->prepare('SELECT ville, temperature, pression, DATE_FORMAT(last_update, "Le %d %M %Y à %Hh%i") AS last_update FROM `temperaturevilles` WHERE ville = ? ');
 $reponse->execute(array($ville_sel));
 //$date = $reponse->fetch();
 $donnees = $reponse->fetch();
@@ -23,7 +23,7 @@ $donnees = $reponse->fetch();
 if ($donnees['temperature'] == 0)
         echo '<h3>'.$donnees['last_update'].' Dans la ville de '.htmlspecialchars(ucfirst($donnees['ville'])).' il fesait actuellement N/A °C</h3> <br/>';
         else
-        echo '<h3>'.$donnees['last_update'].' dans la ville de '.htmlspecialchars(ucfirst($donnees['ville'])).' il fesait '.$donnees['temperature'].' °C</h3> <br/>';
+        echo '<h3>'.$donnees['last_update'].' dans la ville de '.htmlspecialchars(ucfirst($donnees['ville'])).' il fesait '.$donnees['temperature'].'°C, Avec une pression de '.$donnees['pression'].' hPa</h3> <br/>';
 ?>
 
 </html>
